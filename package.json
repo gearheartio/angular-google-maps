@@ -1,0 +1,103 @@
+{
+  "name": "@agm/_dev",
+  "private": true,
+  "version": "1.1.0",
+  "description": "Angular components for Google Maps",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SebastianM/angular-google-maps.git"
+  },
+  "keywords": [
+    "angular",
+    "ng",
+    "google-maps",
+    "maps",
+    "google",
+    "gmaps",
+    "angular2"
+  ],
+  "packageScope": "@agm",
+  "packages": [
+    "packages/core",
+    "packages/js-marker-clusterer",
+    "packages/snazzy-info-window",
+    "packages/drawing-manager"
+  ],
+  "scripts": {
+    "clean": "rimraf dist node_modules/@agm 'packages/**/*.ngfactory.ts' && mkdirp dist",
+    "prebuild": "yarn clean",
+    "build": "yarn lint && yarn build:all",
+    "build:all": "yarn build:core && yarn packagejson && mkdirp node_modules/@agm/core && ncp dist/@agm/core node_modules/@agm/core && yarn build:js-marker-clusterer && yarn build:snazzy-info-window && yarn build:drawing && yarn packagejson",
+    "build:core": "ng-packagr -p packages/core/package.json",
+    "build:js-marker-clusterer": "ng-packagr -p packages/js-marker-clusterer/package.json",
+    "build:snazzy-info-window": "ng-packagr -p packages/snazzy-info-window/package.json",
+    "build:drawing": "ng-packagr -p packages/drawing/package.json",
+    "lint": "tslint --project tsconfig.json -c tslint.json 'packages/**/*.ts'",
+    "packagejson": "node ./scripts/update-package-json.js",
+    "clang:format": "clang-format --glob=packages/**/*.ts -i",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "ci": "yarn build && yarn test --coverage",
+    "docs:clean": "rimraf docs/public",
+    "docs:hugo": "cd docs && hugo",
+    "docs:injectga": "node scripts/inject-google-analytics.js",
+    "docs": "yarn docs:hugo && yarn apidocs:core && yarn apidocs:snazzy && yarn apidocs:jsmarkerclusterer && yarn apidocs:drawing",
+    "apidocs:core": "compodoc -p packages/core/tsconfig.compodoc.json --name @agm/core --output docs/public/api-docs/agm-core/  --hideGenerator --disableCoverage",
+    "apidocs:snazzy": "compodoc -p packages/snazzy-info-window/tsconfig.compodoc.json --name @agm/snazzy-info-window  --output docs/public/api-docs/agm-snazzy-info-window/ --hideGenerator --disableCoverage",
+    "apidocs:jsmarkerclusterer": "compodoc -p packages/js-marker-clusterer/tsconfig.compodoc.json --name @agm/js-marker-clusterer  --output docs/public/api-docs/js-marker-clusterer/ --hideGenerator --disableCoverage",
+    "apidocs:drawing": "compodoc -p packages/drawing/tsconfig.compodoc.json --name @agm/drawing  --output docs/public/api-docs/drawing/ --hideGenerator --disableCoverage"
+  },
+  "author": "Sebastian Holstein <info@sebastian-holstein.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SebastianM/angular-google-maps/issues"
+  },
+  "homepage": "https://angular-maps.com",
+  "peerDependencies": {
+    "@angular/common": "^12.0.0",
+    "@angular/core": "^12.0.0"
+  },
+  "devDependencies": {
+    "@angular/animations": "^12.0.0",
+    "@angular/common": "^12.0.0",
+    "@angular/compiler": "^12.0.0",
+    "@angular/compiler-cli": "^12.0.0",
+    "@angular/core": "^12.0.0",
+    "@angular/platform-browser": "^12.0.0",
+    "@angular/platform-browser-dynamic": "^12.0.0",
+    "@angular/platform-server": "^12.0.0",
+    "@compodoc/compodoc": "^1.1.10",
+    "@types/jest": "^23.0.0",
+    "clang-format": "1.2.3",
+    "codelyzer": "^5.1.0",
+    "conventional-changelog": "^1.1.0",
+    "glob": "^7.1.2",
+    "jasmine-core": "3.1.0",
+    "jest": "^24.8.0",
+    "jest-zone-patch": "0.0.9",
+    "js-marker-clusterer": "^1.0.0",
+    "karma-chrome-launcher": "2.2.0",
+    "mkdirp": "^0.5.1",
+    "ncp": "^2.0.0",
+    "ng-packagr": "^5.4.3",
+    "reflect-metadata": "^0.1.8",
+    "rimraf": "^2.6.3",
+    "rxjs": "^6.5.2",
+    "snazzy-info-window": "^1.1.1",
+    "ts-jest": "^24.0.2",
+    "tslib": "^2.5.0",
+    "tslint": "^5.18.0",
+    "typescript": "4.2.3",
+    "zone.js": "~0.9.1"
+  },
+  "jspm": {
+    "jspmNodeConversion": false,
+    "dependencies": {
+      "@angular/common": "^12.0.0",
+      "@angular/core": "^12.0.0"
+    }
+  },
+  "dependencies": {
+    "yarn": "^1.17.3"
+  }
+}
